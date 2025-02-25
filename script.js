@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const restartButton = document.getElementById("restart-btn");
     const helpMessage = document.getElementById("help-message");
     const gameMode = document.getElementById("game-mode");
+    const homeButton = document.getElementById("home-btn");
 
     let player1, player2;
     let currentPlayer;
@@ -20,8 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let score1 = 0, score2 = 0;
     let firstCard = null, secondCard = null;
     let lockBoard = false;
-    let timer;
-    let timeLeft = 60;
+    let timer, timeLeft = 60; gameStarted = false;
 
     const icons = ["🍎", "🍌", "🍉", "🍓", "🍒", "🍍", "🥝", "🥕"];
     let cards = [...icons, ...icons];
@@ -46,6 +46,24 @@ document.addEventListener("DOMContentLoaded", () => {
             gameBoard.appendChild(card);
         });
     }
+    function showMessage(message) {
+        const messageBox = document.createElement("div");
+        messageBox.id = "message-box";
+        messageBox.innerText = message;
+        messageBox.style.position = "fixed";
+        messageBox.style.top = "300px";
+        messageBox.style.left = "50%";
+        messageBox.style.transform = "translateX(-50%)";
+        messageBox.style.background = "#ffcc00";
+        messageBox.style.padding = "10px 20px";
+        messageBox.style.borderRadius = "5px";
+        messageBox.style.zIndex = "1000";
+        document.body.appendChild(messageBox);
+        
+        setTimeout(() => {
+            document.body.removeChild(messageBox);
+        }, 3000);
+    }
 
     function flipCard() {
         if (lockBoard || this == firstCard) return;
@@ -59,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         secondCard = this;
         lockBoard = true;
-        checkForMatch();
+        setTimeout(checkForMatch, 800);
     }
 
     function checkForMatch() {
@@ -112,10 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 clearInterval(timer);
                 if (isSinglePlayer) {
-                    alert(`🎉 Game Over! You scored ${score1} points!`);
+                    showMessage(`🎉 Game Over! You scored ${score1} points!`);
                 } else {
                     let winner = score1 > score2 ? player1 : (score1 < score2 ? player2 : "It's a tie!");
-                    alert(`🏆 Game Over! ${winner} wins!`);
+                    showMessage(`🏆 Game Over! ${winner} wins!`);
                 }
                 restartGame();
             }, 500);
@@ -124,23 +142,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
     function restartGame() {
+        clearInterval(timer);
+        timerStarted = false;
+        timeLeft = 60;
+        document.getElementById("timer").textContent = timeLeft;
         score1 = 0;
         score2 = 0;
-        score1Display.textContent = score1;
-        score2Display.textContent = score2;
+        score1Display.textContent = "0";
+        score2Display.textContent = "0";
         currentPlayer = player1;
-        currentPlayerDisplay.textContent = `${currentPlayer}'s Turn`; 
+        currentPlayerDisplay.textContent = `Turn: ${currentPlayer}`;
         createCards();
-    
-
-        if (!isSinglePlayer) {
-            startTimer();
+        startTimer();
     }
-}
 
     startButton.addEventListener("click", () => {
         if (!player1Input.value.trim()) {
-            alert("Enter Player 1 Name!");
+            showMessage("Enter Player 1 Name!");
             return;
         }
 
@@ -153,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
             player2Input.style.display = "none";
         } else {
             if (!player2Input.value.trim()) {
-                alert("Enter a player name!");
+                showMessage("Enter a player name!");
                 return;
             }
             player2Input.style.display = "block";
@@ -182,21 +200,34 @@ document.addEventListener("DOMContentLoaded", () => {
    
 
     function startTimer() {
-        clearInterval(timer);
-        timeLeft = 60;
-        document.getElementById("timer").textContent = timeLeft;
+        timerStarted = true;
         timer = setInterval(() => {
-            timeLeft--;
-            document.getElementById("timer").textContent = timeLeft;
-
-            if (timeLeft <= 0) {
+            if (--timeLeft > 0) {
+                document.getElementById("timer").textContent = timeLeft;
+            } else {
                 clearInterval(timer);
-                alert(`⏳ Time's up! You scored ${score1} points.`);
+                showMessage(`⏳ Time's up! You scored ${score1} points.`);
                 restartGame();
             }
         }, 1000);
     }
+
+gameMode.addEventListener("change", function () {
+    if (gameMode.value === "multi") {
+        player2Input.style.display = "block";
+        
+        showMessage("2 Player Mode Enabled!"); 
+    } else {
+        player2Input.style.display = "none";
+        
+        showMessage("Single Player Mode Enabled!");
+    }
+});
+homeButton.addEventListener("click", function () {
+    window.location.href = "index.html";
 });
 
+
+});
 
 

@@ -7,13 +7,32 @@ body {
 }
 
 #start-screen {
-    margin-top: 50px;
-    padding: 20px;
+    margin-top: 30px;
+}
+#game-settings {
+    margin: 10px auto;
+}
+#player-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+#player-color {
+    margin-top: 15px;
 }
 
 
-input, button {
-    margin: 10px;
+
+#player2-name {
+    display: none;
+}
+
+
+
+input[type="text"], button {
+    
     padding: 10px;
     font-size: 16px;
 }
@@ -24,6 +43,7 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    transition: transform 0.5s ease-in-out;
 }
 button:hover {
     background-color: #e74c3c;
@@ -54,9 +74,8 @@ button:hover {
     font-size: 24px;
     color: white;
     cursor: pointer;
-    transform: rotateY(0deg);
     transition: transform 0.5s;
-    perspective: 1000px;
+
 }
 .card.flipped {
     background-color: white;
@@ -69,6 +88,20 @@ button:hover {
     margin-top: 10px;
     border-radius: 5px;
 }
+#home-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 10px;
+}
+#home-btn:hover {
+    background-color: #0056b3;
+}
 
 @media (max-width: 500px) {
     #game-board {
@@ -77,5 +110,9 @@ button:hover {
     .card {
         width: 90px;
         height: 90px;
+    }
+    #player-inputs {
+        flex-direction: column;
+        align-items: center;
     }
 }

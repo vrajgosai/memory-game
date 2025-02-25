@@ -14,16 +14,18 @@
             <option value="single">1 Player</option>
             <option value="multi">2 Players</option>
         </select>
+        <div id="player-inputs">
 
         <input type="text" id="player1-name" placeholder="Player 1 Name">
         <input type="text" id="player2-name" placeholder="Player 2 Name">
+        </div>
         <input type="color" id="player-color" value="#ff5733">
         <button id="start-btn">Start Game</button>
     </div>
     
     <div id="game-container" style="display: none;">
         <h2> <span id="current-player"></span></h2>
-        <p>Score: <span id="score1">0</span> | Player 2 Score: <span id="score2">0</span></p>
+        <p>Player 1 Score: <span id="score1">0</span> | Player 2 Score: <span id="score2">0</span></p>
         <p>Time Left: <span id="timer">60</span> seconds</p>
 
         <div id="game-board">
@@ -31,6 +33,7 @@
         </div>
         <button id="help-btn">Help</button>
         <button id="restart-btn">Restart Game</button>
+        <button id="home-btn">Home</button>
 
         <div id="help-message" style="display: none;">
             <p>Take turns flipping cards. Match pairs to earn points. Highest score wins!</p>
